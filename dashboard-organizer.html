@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Hub — SZN TIX</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 500: '#a855f7', 600: '#9333ea' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-950 text-neutral-100 font-sans min-h-screen flex selection:bg-purple-500 selection:text-white">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 border-r border-neutral-900 bg-neutral-950/80 backdrop-blur-xl hidden md:flex flex-col justify-between p-6 sticky top-0 h-screen">
+        <div>
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2 mb-10">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-black text-white text-xs shadow-lg shadow-purple-600/30">S</div>
+                <div>
+                    <span class="font-black tracking-wider text-white text-sm block">SZN<span class="text-purple-500">TIX</span></span>
+                    <span class="text-[10px] font-semibold text-neutral-400 tracking-wide uppercase">Host Dashboard</span>
+                </div>
+            </div>
+
+            <!-- Nav Links -->
+            <nav class="space-y-1.5 text-xs font-semibold">
+                <a href="#analytics" onclick="switchSection('analytics', event)" id="nav-analytics" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-purple-600 text-white shadow-lg shadow-purple-600/20 transition">📊 Sales & Analytics</a>
+                <a href="#events" onclick="switchSection('events', event)" id="nav-events" class="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-neutral-900 hover:text-white transition">🎫 My Events & Tiers</a>
+                <a href="#create" onclick="switchSection('create', event)" id="nav-create" class="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-neutral-900 hover:text-white transition">➕ Create Event</a>
+                <a href="#scanner" onclick="switchSection('scanner', event)" id="nav-scanner" class="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-neutral-900 hover:text-white transition">📷 Door QR Scanner</a>
+                <a href="#payouts" onclick="switchSection('payouts', event)" id="nav-payouts" class="flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-neutral-900 hover:text-white transition">💳 Revenue & Payouts</a>
+            </nav>
+        </div>
+
+        <!-- Footer profile / logout -->
+        <div class="pt-6 border-t border-neutral-900 flex items-center justify-between">
+            <div class="truncate">
+                <span class="text-xs font-bold text-white block truncate">Organizer Account</span>
+                <span class="text-[10px] text-neutral-500 block">Verified Partner</span>
+            </div>
+            <a href="auth.html" class="text-xs text-red-400 hover:text-red-300 transition font-bold px-2 py-1">Logout</a>
+        </div>
+    </aside>
+
+    <!-- Main Content Layout -->
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+        
+        <!-- Top Bar -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b border-neutral-900">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-black tracking-tight text-white">Organizer Suite</h1>
+                <p class="text-xs text-neutral-400 mt-1">Manage ticket tiers, track real-time revenue, and monitor door entry check-ins.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-300 px-4 py-2.5 rounded-xl text-xs font-bold transition border border-neutral-800">
+                    View Live Site
+                </a>
+                <button onclick="switchSection('create', event)" class="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-purple-600/25 transition">
+                    + Create Event
+                </button>
+            </div>
+        </header>
+
+        <!-- SECTION 1: ANALYTICS (Default) -->
+        <section id="section-analytics" class="space-y-8">
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl backdrop-blur-md">
+                    <span class="text-xs text-neutral-400 font-semibold">Total Revenue Generated</span>
+                    <h2 class="text-3xl font-black mt-2 text-white">₦4,850,000</h2>
+                    <span class="text-[10px] text-emerald-400 font-bold mt-2 inline-flex items-center gap-1 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">↑ +18% this month</span>
+                </div>
+                <div class="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl backdrop-blur-md">
+                    <span class="text-xs text-neutral-400 font-semibold">Total Tickets Sold</span>
+                    <h2 class="text-3xl font-black mt-2 text-white">324 <span class="text-xs font-normal text-neutral-500">/ 500 cap</span></h2>
+                    <span class="text-[10px] text-purple-400 font-bold mt-2 inline-flex items-center gap-1 bg-purple-500/10 px-2 py-0.5 rounded-full border border-purple-500/20">64% Capacity Filled</span>
+                </div>
+                <div class="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl backdrop-blur-md">
+                    <span class="text-xs text-neutral-400 font-semibold">Check-in Rate</span>
+                    <h2 class="text-3xl font-black mt-2 text-white">88.2%</h2>
+                    <span class="text-[10px] text-blue-400 font-bold mt-2 inline-flex items-center gap-1 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">286 Checked In</span>
+                </div>
+                <div class="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl backdrop-blur-md flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs text-neutral-400 font-semibold">Available for Payout</span>
+                        <h2 class="text-3xl font-black mt-2 text-white">₦1,200,000</h2>
+                    </div>
+                    <button class="mt-4 bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white py-2 rounded-xl text-xs font-bold transition border border-purple-500/30">
+                        Request Payout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Table Preview -->
+            <div class="bg-neutral-900/60 border border-neutral-800/80 rounded-3xl p-6 backdrop-blur-md">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-sm text-white">Recent Event Performances</h3>
+                    <a href="#events" onclick="switchSection('events', event)" class="text-xs font-bold text-purple-400 hover:underline">Manage All &rarr;</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-neutral-400">
+                        <thead class="border-b border-neutral-800 text-neutral-500 uppercase font-semibold">
+                            <tr>
+                                <th class="pb-3">Event Title</th>
+                                <th class="pb-3">Date</th>
+                                <th class="pb-3">Status</th>
+                                <th class="pb-3">Revenue</th>
+                                <th class="pb-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-neutral-800/60">
+                            <tr>
+                                <td class="py-4 font-bold text-white flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                                    Interstellar: The Rave Experience
+                                </td>
+                                <td class="py-4">Aug 14, 2026</td>
+                                <td class="py-4"><span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-semibold">Active</span></td>
+                                <td class="py-4 font-bold text-white">₦3,150,000</td>
+                                <td class="py-4 text-right">
+                                    <button class="text-purple-400 hover:underline font-semibold">Manage Tiers</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: CREATE EVENT -->
+        <section id="section-create" class="space-y-6 hidden">
+            <div class="max-w-3xl bg-neutral-900/60 border border-neutral-800/80 rounded-3xl p-8 backdrop-blur-md">
+                <h2 class="text-xl font-black text-white mb-2">Publish New Event</h2>
+                <p class="text-xs text-neutral-400 mb-6">Configure event parameters, ticket tiers (Early Bird, VIP, Tables), and custom capacities.</p>
+                
+                <onsubmit="event.preventDefault(); alert('Event successfully published!');" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-400 mb-1">Event Title</label>
+                            <input type="text" required placeholder="e.g. Lagos Skyline Rave" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-400 mb-1">Category</label>
+                            <select class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                                <option value="Music">🎵 Music & Concerts</option>
+                                <option value="Nightlife">🍸 Nightlife & Parties</option>
+                                <option value="Tech">🚀 Tech & Startups</option>
+                                <option value="Fashion">✨ Fashion</option>
+                                <option value="Festival">⛺ Festivals</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-400 mb-1">City / Location</label>
+                            <input type="text" required placeholder="Lagos, Nigeria" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-400 mb-1">Exact Venue Address</label>
+                            <input type="text" required placeholder="Eko Convention Center" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-400 mb-1">Date & Time</label>
+                            <input type="datetime-local" required class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-400 mb-1">Event Banner Image</label>
+                            <input type="file" accept="image/*" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs text-neutral-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-500 transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-400 mb-1">Event Description</label>
+                        <textarea rows="4" placeholder="Tell attendees what to expect..." class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition"></textarea>
+                    </div>
+
+                    <!-- Ticket Tiers Configuration -->
+                    <div class="pt-4 border-t border-neutral-800">
+                        <h3 class="text-sm font-bold text-white mb-3">Ticket Tiers & Pricing</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="bg-neutral-950 p-4 rounded-xl border border-neutral-800">
+                                <span class="text-xs font-bold text-purple-400">Early Bird</span>
+                                <input type="number" placeholder="Price (₦)" class="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2 text-xs mt-2 text-white">
+                                <input type="number" placeholder="Capacity" class="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2 text-xs mt-2 text-white">
+                            </div>
+                            <div class="bg-neutral-950 p-4 rounded-xl border border-neutral-800">
+                                <span class="text-xs font-bold text-purple-400">Regular Pass</span>
+                                <input type="number" placeholder="Price (₦)" class="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2 text-xs mt-2 text-white">
+                                <input type="number" placeholder="Capacity" class="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2 text-xs mt-2 text-white">
+                            </div>
+                            <div class="bg-neutral-950 p-4 rounded-xl border border-neutral-800">
+                                <span class="text-xs font-bold text-purple-400">VIP / Table</span>
+                                <input type="number" placeholder="Price (₦)" class="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2 text-xs mt-2 text-white">
+                                <input type="number" placeholder="Capacity" class="w-full bg-neutral-900 border border-neutral-800 rounded-lg p-2 text-xs mt-2 text-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" onclick="alert('Event published successfully!')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-lg shadow-purple-600/30 mt-6">
+                        Publish Event
+                    </button>
+                </onsubmit>
+            </div>
+        </section>
+
+        <!-- SECTION 3: QR DOOR SCANNER -->
+        <section id="section-scanner" class="space-y-6 hidden">
+            <div class="max-w-xl bg-neutral-900/60 border border-neutral-800/80 rounded-3xl p-8 text-center backdrop-blur-md">
+                <div class="w-16 h-16 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
+                    📷
+                </div>
+                <h2 class="text-xl font-black text-white">Live Check-in Scanner</h2>
+                <p class="text-xs text-neutral-400 mt-1 mb-6">Scan attendee ticket QR codes at the venue door to prevent duplicate entries instantly.</p>
+                
+                <div class="bg-neutral-950 border border-dashed border-neutral-800 rounded-2xl h-48 flex flex-col items-center justify-center text-neutral-500 text-xs mb-6">
+                    <span>[ Camera Feed Initialized ]</span>
+                    <span class="text-[10px] text-neutral-600 mt-1">Point device camera at attendee QR pass</span>
+                </div>
+
+                <div class="flex gap-3">
+                    <input type="text" placeholder="Or enter Ticket UID manually..." class="flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500">
+                    <button onclick="alert('Ticket Verified Successfully!')" class="bg-purple-600 hover:bg-purple-500 text-white px-6 py-3 rounded-xl text-xs font-bold transition">Verify Pass</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: EVENTS LIST -->
+        <section id="section-events" class="space-y-6 hidden">
+            <div class="bg-neutral-900/60 border border-neutral-800/80 rounded-3xl p-6 backdrop-blur-md">
+                <h2 class="font-bold text-sm text-white mb-4">All Managed Events</h2>
+                <p class="text-xs text-neutral-400 mb-4">Edit active events, update ticket inventory, or export attendee CSV lists.</p>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-neutral-950 border border-neutral-800">
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Interstellar: The Rave Experience</h4>
+                            <span class="text-[10px] text-neutral-400">Eko Convention Center • Aug 14, 2026</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="alert('Downloading CSV attendee list...')" class="px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-xs font-semibold text-neutral-300 border border-neutral-800">Export CSV</button>
+                            <button onclick="switchSection('create', event)" class="px-3 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600 text-xs font-semibold text-purple-300 border border-purple-500/30">Edit Event</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: PAYOUTS -->
+        <section id="section-payouts" class="space-y-6 hidden">
+            <div class="max-w-xl bg-neutral-900/60 border border-neutral-800/80 rounded-3xl p-8 backdrop-blur-md">
+                <h2 class="text-xl font-black text-white mb-2">Request Bank Payout</h2>
+                <p class="text-xs text-neutral-400 mb-6">Withdraw your verified ticket proceeds straight to your registered bank account.</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-400 mb-1">Select Bank</label>
+                        <select class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500">
+                            <option>Guaranty Trust Bank (GTB)</option>
+                            <option>Zenith Bank</option>
+                            <option>Access Bank</option>
+                            <option>UBA</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-400 mb-1">Account Number</label>
+                        <input type="text" placeholder="0123456789" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-400 mb-1">Amount to Withdraw (₦)</label>
+                        <input type="number" placeholder="1200000" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500">
+                    </div>
+                    <button onclick="alert('Payout request submitted successfully! Funds will arrive within 24 hours.')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-xs transition shadow-lg shadow-purple-600/25">
+                        Initiate Transfer
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Client-side Tab Switcher Script -->
+    <script>
+        function switchSection(sectionId, event) {
+            if(event) event.preventDefault();
+            
+            // Hide all sections
+            const sections = ['analytics', 'create', 'scanner', 'events', 'payouts'];
+            sections.forEach(sec => {
+                const el = document.getElementById('section-' + sec);
+                if(el) el.classList.add('hidden');
+                
+                const nav = document.getElementById('nav-' + sec);
+                if(nav) {
+                    nav.className = "flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-neutral-900 hover:text-white transition";
+                }
+            });
+
+            // Show selected section
+            const targetSec = document.getElementById('section-' + sectionId);
+            if(targetSec) targetSec.classList.remove('hidden');
+
+            // Highlight nav button
+            const targetNav = document.getElementById('nav-' + sectionId);
+            if(targetNav) {
+                targetNav.className = "flex items-center gap-3 px-4 py-3 rounded-xl bg-purple-600 text-white shadow-lg shadow-purple-600/20 transition";
+            }
+        }
+    </script>
+</body>
+</html>

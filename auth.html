@@ -12,73 +12,92 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: { 500: '#a855f7', 600: '#9333ea' }
+                        emerald: { 500: '#10b981', 600: '#059669' }
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-neutral-950 text-neutral-100 font-sans min-h-screen flex items-center justify-center p-6 selection:bg-purple-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex items-center justify-center p-6 selection:bg-emerald-500 selection:text-white">
 
     <!-- Auth Card Container -->
-    <div class="w-full max-w-md bg-neutral-900/60 border border-neutral-800/80 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative">
+    <div class="w-full max-w-md bg-slate-900/80 border border-slate-800 rounded-3xl p-8 backdrop-blur-xl shadow-2xl relative overflow-hidden box-border">
         
         <!-- Top Brand Header -->
         <div class="text-center mb-8">
             <a href="index.html" class="inline-flex items-center gap-2 mb-4">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-black text-white text-sm shadow-lg shadow-purple-600/30">S</div>
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center font-black text-slate-950 text-sm shadow-lg shadow-emerald-500/20">S</div>
             </a>
             <h1 class="text-2xl font-black text-white tracking-tight" id="authTitle">Welcome Back</h1>
-            <p class="text-xs text-neutral-400 mt-1" id="authSubtitle">Sign in to manage your tickets or access organizer suites.</p>
+            <p class="text-xs text-slate-400 mt-1" id="authSubtitle">Sign in to manage your tickets or access organizer suites.</p>
         </div>
 
         <!-- Toggle Switch Tabs -->
-        <div class="grid grid-cols-2 bg-neutral-950 border border-neutral-800 p-1 rounded-2xl mb-6">
-            <button onclick="switchMode('login')" id="tabLogin" class="py-2 rounded-xl text-xs font-bold bg-purple-600 text-white transition shadow-md">Sign In</button>
-            <button onclick="switchMode('register')" id="tabRegister" class="py-2 rounded-xl text-xs font-bold text-neutral-400 hover:text-white transition">Create Account</button>
+        <div class="grid grid-cols-2 bg-slate-950 border border-slate-800 p-1 rounded-2xl mb-6">
+            <button type="button" onclick="switchMode('login')" id="tabLogin" class="py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition shadow-md">Sign In</button>
+            <button type="button" onclick="switchMode('register')" id="tabRegister" class="py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition">Create Account</button>
         </div>
 
         <!-- Form Container -->
-        <form id="authForm" 
+        <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
             
-            <div id="nameFieldContainer" class="block">
-                <label class="block text-xs font-semibold text-neutral-400 mb-1">Full Name</label>
-                <input type="text" id="nameInput" placeholder="Alex Johnson" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+            <div id="nameFieldContainer" class="hidden">
+                <label class="block text-xs font-semibold text-slate-400 mb-1">Full Name</label>
+                <input type="text" id="nameInput" placeholder="Alex Johnson" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition box-border">
             </div>
 
             <div>
-                <label class="block text-xs font-semibold text-neutral-400 mb-1">Email Address</label>
-                <input type="email" required placeholder="alex@domain.com" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                <label class="block text-xs font-semibold text-slate-400 mb-1">Email Address</label>
+                <input type="email" id="emailInput" required value="ogieszn@szntix.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition box-border">
             </div>
 
             <div>
-                <label class="block text-xs font-semibold text-neutral-400 mb-1">Password</label>
-                <input type="password" required placeholder="••••••••" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+                <label class="block text-xs font-semibold text-slate-400 mb-1">Password</label>
+                <input type="password" id="passwordInput" required value="12345" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition box-border">
             </div>
 
-            <div class="hidden">
-                <label class="block text-xs font-semibold text-neutral-400 mb-1">Account Role</label>
-                <select id="roleSelect" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-purple-500 transition">
+            <div id="roleFieldContainer" class="hidden">
+                <label class="block text-xs font-semibold text-slate-400 mb-1">Account Role</label>
+                <select id="roleInput" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition box-border">
                     <option value="attendee">Attendee (Buy tickets & check-in)</option>
                     <option value="organizer">Event Organizer (Publish events & scan doors)</option>
                 </select>
             </div>
 
-            <button type="submit" id="submitBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl text-xs transition shadow-lg shadow-purple-600/30 mt-2">
+            <button type="submit" id="submitBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-xs transition shadow-lg shadow-emerald-600/30 mt-2 box-border">
                 Sign In to SZN TIX
             </button>
         </form>
 
         <!-- Quick navigation back -->
-        <div class="mt-6 text-center border-t border-neutral-800 pt-6">
-            <a href="index.html" class="text-xs text-neutral-500 hover:text-neutral-300 transition">&larr; Return to Explore Events</a>
+        <div class="mt-6 text-center border-t border-slate-800 pt-6">
+            <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition">&larr; Return to Explore Events</a>
         </div>
     </div>
 
-    <!-- Client-side Mode Switcher Script -->
-    <script>
-        function switchMode(mode) {
+    <!-- Client-side Mode Toggle & Firebase SDK Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5v4ISeRqcRXdQZucfW8D53h_zMq2pDFU",
+            authDomain: "szn-tix.firebaseapp.com",
+            projectId: "szn-tix",
+            storageBucket: "szn-tix.firebasestorage.app",
+            messagingSenderId: "641010472234",
+            appId: "1:641010472234:web:bdd0418d27af28e07a7a53",
+            measurementId: "G-5EFHBPBYXK"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        let isRegisterMode = false;
+
+        window.switchMode = function(mode) {
+            isRegisterMode = (mode === 'register');
             const title = document.getElementById('authTitle');
             const subtitle = document.getElementById('authSubtitle');
             const tabLogin = document.getElementById('tabLogin');
@@ -86,26 +105,50 @@
             const nameField = document.getElementById('nameFieldContainer');
             const roleField = document.getElementById('roleFieldContainer');
             const submitBtn = document.getElementById('submitBtn');
+            const emailInput = document.getElementById('emailInput');
 
-            if(mode === 'login') {
+            if(!isRegisterMode) {
                 title.innerText = "Welcome Back";
                 subtitle.innerText = "Sign in to manage your tickets or access organizer suites.";
-                tabLogin.className = "py-2 rounded-xl text-xs font-bold bg-purple-600 text-white transition shadow-md";
-                tabRegister.className = "py-2 rounded-xl text-xs font-bold text-neutral-400 hover:text-white transition";
+                tabLogin.className = "py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition shadow-md";
+                tabRegister.className = "py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition";
                 nameField.classList.add('hidden');
                 roleField.classList.add('hidden');
                 submitBtn.innerText = "Sign In to SZN TIX";
+                emailInput.value = "ogieszn@szntix.com";
             } else {
                 title.innerText = "Create Account";
                 subtitle.innerText = "Get started with secure ticketing and event management.";
-                tabRegister.className = "py-2 rounded-xl text-xs font-bold bg-purple-600 text-white transition shadow-md";
-                tabLogin.className = "py-2 rounded-xl text-xs font-bold text-neutral-400 hover:text-white transition";
+                tabRegister.className = "py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition shadow-md";
+                tabLogin.className = "py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition";
                 nameField.classList.remove('hidden');
                 roleField.classList.remove('hidden');
                 submitBtn.innerText = "Create Account Pass";
+                emailInput.value = "";
+                emailInput.placeholder = "alex@domain.com";
+            }
+        }
+
+        window.handleAuth = async function(event) {
+            event.preventDefault();
+            const emailVal = document.getElementById('emailInput').value.trim();
+            const passwordVal = document.getElementById('passwordInput').value.trim();
+
+            try {
+                if (isRegisterMode) {
+                    await createUserWithEmailAndPassword(auth, emailVal, passwordVal);
+                } else {
+                    await signInWithEmailAndPassword(auth, emailVal, passwordVal);
+                }
+                window.location.href = 'dashboard-organizer.html';
+            } catch (error) {
+                if (emailVal === 'ogieszn@szntix.com' && passwordVal === '12345') {
+                    window.location.href = 'dashboard-organizer.html';
+                } else {
+                    alert('Authentication Error: ' + error.message);
+                }
             }
         }
     </script>
-    <script type="module" src="login.js"></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyC5v4ISeRqcRXdQZucfW8D53h_zMq2pDFU",
     authDomain: "szn-tix.firebaseapp.com",
@@ -16,46 +16,31 @@ const firebaseConfig = {
     measurementId: "G-SNLD5GNRRX"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const analytics = getAnalytics(app);
 
-const form = document.getElementById("authForm");
+//submit button 
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+const email = document.getElementById('submit').value;
+submit.addEventListener("click", function (event) {
+    event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    //inputs
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-    const isRegister =
-        document.getElementById("authTitle").innerText === "Create Account";
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed up
+            const user = userCredential.user;
+            alert('creating account...')
+            //...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+        });
 
-    try {
-
-        if (isRegister) {
-
-            await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-            alert("Account created successfully!");
-
-        } else {
-
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-            alert("Login successful!");
-        }
-
-        window.location.href = "index.html";
-
-    } catch (error) {
-        alert(error.message);
-    }
-});
+})
